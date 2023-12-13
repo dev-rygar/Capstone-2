@@ -1,9 +1,9 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const auth = require("../auth");
+const mongoose = require('mongoose');
 
 
-// Updated .Catch() w/ Status code.
 module.exports.registerUser = (req, res) => {
   return User.findOne({ email: req.body.email })
     .then((result) => {
@@ -17,7 +17,6 @@ module.exports.registerUser = (req, res) => {
           firstName: req.body.firstName,
           lastName: req.body.lastName,
           email: req.body.email,
-          // bcrypt.hashSync is to hide the actual password
           password: bcrypt.hashSync(req.body.password, 10),
           isAdmin: req.body.isAdmin,
           mobileNo: req.body.mobileNo,
@@ -32,7 +31,6 @@ module.exports.registerUser = (req, res) => {
     })
     .catch((error) => {
       res.status(500).send({message: "" + error});
-      // res.status(500).send(false);
     });
 };
 
@@ -43,20 +41,18 @@ module.exports.loginUser = (req, res) => {
       if (result == null) {
         return res.status(404).send({ error: "No Email Found" });
       } else {
-        // verify password
-        // Syntax: bcrypt.compareSync(userInput, bcryptedPasswordFromDatabase)
+
         const isPasswordCorrect = bcrypt.compareSync(
           req.body.password,
           result.password
-        ); // true or false
+        ); 
 
         if (isPasswordCorrect == true) {
-          // if the password matches, it will create/generate a token
           return res
             .status(200)
             .send({ access: auth.createAccessToken(result) });
         } else {
-          // if the password does not match it should response that it does not match "Email and/or password do not match"
+
           return res
             .status(401)
             .send({ message: "Email and/or password do not match" });
@@ -68,38 +64,83 @@ module.exports.loginUser = (req, res) => {
     });
 };
 
-// Retrieve all users (for admin only)
-// Updated .Catch() w/ Status code.
+
 module.exports.getAllUsers = (req, res) => {
   return User.find({})
     .then((result) => {
       res.status(200).send({ result });
     })
     .catch((error) => {
-      res.status(500).send({ message: "Error retrieving users", error }); // 500 Internal Server Error
+      res.status(500).send({ message: "Error retrieving users", error }); 
     });
 };
 
 module.exports.getProfile = (req, res) => {
-  // Debugging: Print the received user ID
-  console.log(req.user.id);
-  return User.findById(req.user.id)
-    .then((user) => {
-      if (!user) {
-        // console.log('result not found in the database');
-        return res.status(404).send({ message: "User not found" });
-      } else {
-        if (req.user.id === req.body._id) {
-          user.password = "";
-          // console.log('User found:', user);
-          return res.status(200).send(user);
-        } else {
-          return res.send("Error invalid user and token");
+	
+	// req.user is the payload of the token upon login
+	console.log("req.user display:");
+	console.log(req.user);
+
+	// return User.findOne({_id: req.user.id})
+	return User.findById(req.user.id)
+	.then(result =>{
+		// validation
+		if(!result){
+				// status code - 404
+			return res.status(404).send({error: 'User not found'});
+		}
+		else{
+			result.password = "*****";
+				// // status code - 200
+			return res.status(200).send({result})
+		}
+	})	
+}
+
+
+exports.setUserAsAdmin = async (req, res) => {
+    try {
+        const { userId } = req.body;
+
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).send({ message: 'Invalid user ID' });
         }
-      }
-    })
-    .catch((error) => {
-      console.error("Error while finding user:" + error);
-      res.status(500).send({ message: "Find failed" + error });
-    });
+
+        const userToUpdate = await User.findById(userId);
+
+        if (!userToUpdate) {
+            return res.status(404).send({ message: 'User not found' });
+        }
+
+        userToUpdate.isAdmin = true;
+        await userToUpdate.save();
+
+        const fullName = `${userToUpdate.firstName} ${userToUpdate.lastName}`;
+
+        res.status(200).send({ message: `${fullName} has been updated as admin successfully` });
+    } catch (error) {
+        res.status(500).send({ message: 'Internal Server Error', error: error.message });
+    }
+};
+
+
+// Function to reset the password
+module.exports.resetPassword = async (req, res) => {
+    try {
+        const { newPassword } = req.body;
+        const { id } = req.user; 
+
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).send({ message: 'User not found' });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        await User.findByIdAndUpdate(id, { password: hashedPassword });
+
+        res.status(200).send({ message: 'Password reset successfully' });
+    } catch (error) {
+        res.status(500).send({ message: 'Internal Server Error', error: error.message });
+    }
 };
