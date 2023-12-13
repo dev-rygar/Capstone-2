@@ -6,7 +6,7 @@ const session = require("express-session");
 const passport = require("passport");
 
 // Importing new routes
-const userRoutes = require("./routes/user");
+const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/product"); // Ensure this file exists
 const cartRoutes = require("./routes/cart"); // Ensure this file exists
 
