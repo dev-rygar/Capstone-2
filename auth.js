@@ -17,10 +17,16 @@ module.exports.verify = (req, res, next) => {
         return res.status(401).send({ auth: "Failed. No Token" });
     }
     token = token.slice(7); // Remove "Bearer "
+
     jwt.verify(token, secret, (err, decodedToken) => {
         if (err) {
             return res.status(403).send({ auth: "Failed", message: err.message });
         }
+
+        if (decodedToken.someUserData !== req.someUserData) {
+            return res.status(403).send({ auth: "Failed", message: "Invalid session data" });
+        }
+
         req.user = decodedToken;
         next();
     });

@@ -15,6 +15,11 @@ const productSchema = new mongoose.Schema({
         required: [true, 'Product price is required'],
         min: [0, 'Product price cannot be negative']
     },
+    qty: { // New field for quantity
+        type: Number,
+        required: [true, 'Product quantity is required'],
+        min: [0, 'Quantity cannot be negative']
+    },
     isActive: {
         type: Boolean,
         default: true

@@ -5,5 +5,9 @@ const auth = require('../auth');
 
 router.get('/', auth.verify, cartController.getUserCart);
 router.post('/add', auth.verify, cartController.addToCart);
+router.put('/update-quantity', auth.verify, cartController.updateCartItemQuantity);
+router.delete('/remove', auth.verify, cartController.removeProductFromCart);
+router.put('/clear', auth.verify, cartController.clearCart);
+
 
 module.exports = router;

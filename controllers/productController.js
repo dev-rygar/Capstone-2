@@ -5,17 +5,40 @@ const mongoose = require('mongoose');
 
 module.exports.createProduct = async (req, res) => {
     try {
-        const { name, description, price } = req.body;
+        const { name, description, price, qty } = req.body; 
 
         let newProduct = new Product({
             name,
             description,
-            price
+            price,
+            qty 
         });
 
         await newProduct.save();
-
         res.status(201).send({ message: "Product created successfully" });
+    } catch (error) {
+        res.status(500).send({ message: 'Internal Server Error', error: error.message });
+    }
+};
+
+
+module.exports.editProduct = async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const { name, description, price, qty } = req.body;
+
+        // Find the product and update its details
+        const updatedProduct = await Product.findByIdAndUpdate(
+            productId, 
+            { name, description, price, qty },
+            { new: true, omitUndefined: true } // Returns the updated document and omits undefined fields
+        );
+
+        if (!updatedProduct) {
+            return res.status(404).send({ message: 'Product not found' });
+        }
+
+        res.status(200).send({ message: 'Product updated successfully', updatedProduct });
     } catch (error) {
         res.status(500).send({ message: 'Internal Server Error', error: error.message });
     }
@@ -82,6 +105,34 @@ module.exports.activateProduct = async (req, res) => {
         }
 
         res.status(200).send({ message: 'Product activated successfully', updatedProduct });
+    } catch (error) {
+        res.status(500).send({ message: 'Internal Server Error', error: error.message });
+    }
+};
+
+module.exports.searchProductsByName = async (req, res) => {
+    try {
+        const { name } = req.query; // Assuming the name to search is passed as a query parameter
+
+        const products = await Product.find({ 
+            name: { $regex: name, $options: 'i' } // Case-insensitive search
+        });
+
+        res.status(200).send(products);
+    } catch (error) {
+        res.status(500).send({ message: 'Internal Server Error', error: error.message });
+    }
+};
+
+module.exports.searchProductsByPriceRange = async (req, res) => {
+    try {
+        const { minPrice, maxPrice } = req.query; // Assuming min and max prices are passed as query parameters
+
+        const products = await Product.find({ 
+            price: { $gte: minPrice, $lte: maxPrice }
+        });
+
+        res.status(200).send(products);
     } catch (error) {
         res.status(500).send({ message: 'Internal Server Error', error: error.message });
     }

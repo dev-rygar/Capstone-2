@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
 const cartRoutes = require("./routes/cartRoutes");
+const orderRoutes = require('./routes/orderRoutes');
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -31,6 +32,7 @@ mongoose.connection.once('open', () => console.log('Now connected to MongoDB Atl
 app.use("/users", userRoutes);
 app.use("/products", productRoutes);
 app.use("/cart", cartRoutes);
+app.use('/orders', orderRoutes);
 
 // Start the server
 app.listen(port, () => {

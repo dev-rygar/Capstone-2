@@ -76,21 +76,27 @@ module.exports.getAllUsers = (req, res) => {
 };
 
 module.exports.getProfile = (req, res) => {
-	console.log("req.user display:");
-	console.log(req.user);
+    const authenticatedUserId = req.user.id; 
+    const isAdmin = req.user.isAdmin; 
+    const requestedUserId = req.query.userId || authenticatedUserId;
 
-	return User.findById(req.user.id)
-	.then(result =>{
-		// validation
-		if(!result){
-			return res.status(404).send({error: 'User not found'});
-		}
-		else{
-			result.password = "*****";
-			return res.status(200).send({result})
-		}
-	})	
-}
+    if (!isAdmin && requestedUserId !== authenticatedUserId) {
+        return res.status(403).send({ error: 'Unauthorized access' });
+    }
+
+    User.findById(requestedUserId)
+    .then(user => {
+        if (!user) {
+            return res.status(404).send({ error: 'User not found' });
+        }
+        user.password = undefined; // Mask sensitive information
+        res.status(200).send({ user });
+    })
+    .catch(error => {
+        res.status(500).send({ error: error.message });
+    });
+};
+
 
 exports.setUserAsAdmin = async (req, res) => {
     try {
@@ -122,16 +128,15 @@ exports.setUserAsAdmin = async (req, res) => {
 module.exports.resetPassword = async (req, res) => {
     try {
         const { newPassword } = req.body;
-        const { id } = req.user; 
+        const authenticatedUserId = req.user.id; // ID from token
 
-        const user = await User.findById(id);
-        if (!user) {
-            return res.status(404).send({ message: 'User not found' });
+        // Ensure the authenticated user is changing their own password
+        if (authenticatedUserId !== req.params.userId) {
+            return res.status(403).send({ message: 'Unauthorized to reset password for this user' });
         }
 
         const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-        await User.findByIdAndUpdate(id, { password: hashedPassword });
+        await User.findByIdAndUpdate(authenticatedUserId, { password: hashedPassword });
 
         res.status(200).send({ message: 'Password reset successfully' });
     } catch (error) {
