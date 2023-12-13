@@ -9,11 +9,16 @@ router.post('/register', userController.registerUser);
 // User Login
 router.post('/login', userController.loginUser);
 
-// Get User Profile
-router.get('/profile', auth.verify, userController.getProfile); // Assuming you meant getProfile
+router.get('/all', auth.verify, auth.verifyAdmin, userController.getAllUsers);
 
-// Set User as Admin (method needs to be defined in userController.js)
-// router.put('/setAdmin/:userId', auth.verify, auth.verifyAdmin, userController.setAsAdmin); 
+// Get User Profile
+router.get("/details", auth.verify, userController.getProfile);
+
+router.put('/updateAdmin', auth.verify, auth.verifyAdmin, userController.setUserAsAdmin);
+
+router.post('/reset-password', auth.verify, userController.resetPassword);
+
+
 
 // Update Password (method needs to be defined in userController.js)
 // router.put('/updatePassword', auth.verify, userController.updatePassword); 
