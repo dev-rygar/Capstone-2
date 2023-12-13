@@ -76,27 +76,21 @@ module.exports.getAllUsers = (req, res) => {
 };
 
 module.exports.getProfile = (req, res) => {
-	
-	// req.user is the payload of the token upon login
 	console.log("req.user display:");
 	console.log(req.user);
 
-	// return User.findOne({_id: req.user.id})
 	return User.findById(req.user.id)
 	.then(result =>{
 		// validation
 		if(!result){
-				// status code - 404
 			return res.status(404).send({error: 'User not found'});
 		}
 		else{
 			result.password = "*****";
-				// // status code - 200
 			return res.status(200).send({result})
 		}
 	})	
 }
-
 
 exports.setUserAsAdmin = async (req, res) => {
     try {
