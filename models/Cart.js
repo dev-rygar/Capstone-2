@@ -16,7 +16,7 @@ const cartItemSchema = new mongoose.Schema({
         type: Number,
         required: true
     }
-}, { _id: false }); // Prevents creation of separate _id for each cart item
+}, { _id: false }); 
 
 const cartSchema = new mongoose.Schema({
     userId: {
@@ -38,6 +38,6 @@ const cartSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-}, { timestamps: true }); // Auto-manage createdAt and updatedAt
+}, { timestamps: true }); 
 
 module.exports = mongoose.model('Cart', cartSchema);
