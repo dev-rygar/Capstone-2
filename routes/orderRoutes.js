@@ -3,12 +3,17 @@ const router = express.Router();
 const orderController = require('../controllers/orderController');
 const auth = require('../auth');
 
-//http://localhost:4000/orders/create
-router.post('/create', auth.verify, orderController.createOrder);
 
-router.get('/all', auth.verify, auth.verifyAdmin, orderController.getAllOrders);
+router.post('/checkout', auth.verify, auth.isLoggedIn, orderController.createOrder);
 
-// Route to get the authenticated user's orders
-router.get('/my-orders', auth.verify, orderController.getUserOrders);
+router.get('/my-orders', auth.verify, auth.isLoggedIn, orderController.getUserOrders);
+
+router.get('/all-orders', auth.verify, auth.verifyAdmin, auth.isLoggedIn, orderController.getAllOrders);
+
+router.put('/complete/:orderId', auth.verify, auth.isLoggedIn, orderController.completeOrder);
+
+router.put('/cancel/:orderId', auth.verify, auth.isLoggedIn, orderController.cancelOrder);
+
+router.get('/invoice/:orderId', auth.verify, auth.isLoggedIn, orderController.generateInvoice);
 
 module.exports = router;

@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const secret = process.env.JWT_SECRET || "YourSecretKey"; // Ensure this is securely set
-
+const secret = process.env.JWT_SECRET || "sikretSusi"; 
 module.exports.createAccessToken = (user) => {
     const payload = {
         id: user._id,
@@ -16,7 +15,7 @@ module.exports.verify = (req, res, next) => {
     if (!token) {
         return res.status(401).send({ auth: "Failed. No Token" });
     }
-    token = token.slice(7); // Remove "Bearer "
+    token = token.slice(7); 
 
     jwt.verify(token, secret, (err, decodedToken) => {
         if (err) {

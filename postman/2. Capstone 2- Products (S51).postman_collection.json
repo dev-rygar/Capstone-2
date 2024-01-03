@@ -1,0 +1,398 @@
+{
+	"info": {
+		"_postman_id": "4f0d76f6-9b55-4872-81be-d533714d9241",
+		"name": "Capstone 2: Products (S51)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30959489",
+		"_collection_link": "https://www.postman.com/tjgarry/workspace/b335-tan-johngarry/collection/30959489-4f0d76f6-9b55-4872-81be-d533714d9241?action=share&source=collection_link&creator=30959489"
+	},
+	"item": [
+		{
+			"name": "Create Product",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OTQ0MDEwYmJlMzU4NjVmODhlYjZjZSIsImVtYWlsIjoianVhbi5kZWxhY3J1ekBleGFtcGxlLnBoIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzA0MjE4MTA4fQ.rsa_HnsHzwrhmyjYh8-a125lRDA3JvNcRfGl4qh4jz0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "// Template:\r\n\r\n// {\r\n//     \"name\": \"\",\r\n//     \"description\": \"\",\r\n//     \"price\": ,\r\n//     \"qty\": ,\r\n//     \"salesCount\": 0,\r\n//     \"isActive\": true\r\n// }\r\n\r\n{\r\n    \"name\": \"test\",\r\n    \"description\": \"1234\",\r\n    \"price\": 10.00,\r\n    \"qty\": 2,\r\n    \"salesCount\": 3,\r\n    \"isActive\": true\r\n}\r\n\r\n// {\r\n//     \"name\": \"Blink Dagger\",\r\n//     \"description\": \"Will give you the ability to blink! but not including your clothes\",\r\n//     \"price\": 2000,\r\n//     \"qty\": 10,\r\n//     \"salesCount\": 0,\r\n//     \"isActive\": true\r\n// }\r\n\r\n\r\n// All products below are registered\r\n\r\n// {\r\n//     \"name\": \"Chuckling Potion\",\r\n//     \"description\": \"Guaranteed to make you chuckle, but don't expect it to turn you into a stand-up comedian!\",\r\n//     \"price\": 999,\r\n//     \"qty\": 0,\r\n//     \"salesCount\": 0,\r\n//     \"isActive\": false\r\n// }\r\n\r\n\r\n\r\n// {\r\n//     \"name\": \"Front-End Development\",\r\n//     \"description\": \"Deliverables: HTML, CSS, JavaScript, etc\",\r\n//     \"price\": 10000,\r\n//     \"qty\": 3,\r\n//     \"salesCount\": 0,\r\n//     \"isActive\": true\r\n// }\r\n\r\n// {\r\n//     \"name\": \"Graphic Design Service\",\r\n//     \"description\": \"Professional graphic design service, including logo design, branding, and more!\",\r\n//     \"price\": 5000,\r\n//     \"qty\": 2,\r\n//     \"salesCount\": 0,\r\n//     \"isActive\": true\r\n// }\r\n\r\n\r\n\r\n// {\r\n//     \"name\": \"Road Bike\",\r\n//     \"description\": \"Road bike with Shimano Ultegra groupset and carbon fiber frameset\",\r\n//     \"price\": 2500,\r\n//     \"qty\": 8,\r\n//     \"salesCount\": 0,\r\n//     \"isActive\": true\r\n// }\r\n\r\n// {\r\n//     \"name\": \"Mountain Bike\",\r\n//     \"description\": \"Mountain bike with SRAM Eagle groupset and aluminum frameset\",\r\n//     \"price\": 1800,\r\n//     \"qty\": 0,\r\n//     \"salesCount\": 0,\r\n//     \"isActive\": false\r\n// }\r\n\r\n// {\r\n//     \"name\": \"Gravel Bike\",\r\n//     \"description\": \"Gravel bike with Shimano GRX groupset and steel frameset\",\r\n//     \"price\": 2100,\r\n//     \"qty\": 7,\r\n//     \"salesCount\": 0,\r\n//     \"isActive\": true\r\n// }\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/products/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"products",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Product",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1Nzk5NjlkMTY0ZjMwMzkyZDJiZWY2ZiIsImVtYWlsIjoic2FyYS5vY29ubm9yQHdlYm1haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzAyNDc3MTI5fQ.hz787vWbQ1uTAVwBwp5_kDgvWD7f_qe9EyGxZHmv6xg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Meme Design v2\",\r\n    \"description\": \"Now filled with dark humor.\",\r\n    \"price\": 999999,\r\n    \"qty\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/products/edit/6593a46a24bde4910e41c1cd",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"products",
+						"edit",
+						"6593a46a24bde4910e41c1cd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Active",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OTQ0MDEwYmJlMzU4NjVmODhlYjZjZSIsImVtYWlsIjoianVhbi5kZWxhY3J1ekBleGFtcGxlLnBoIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzA0MjE4MTA4fQ.rsa_HnsHzwrhmyjYh8-a125lRDA3JvNcRfGl4qh4jz0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/products/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"products",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Products",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OTQ0MDEwYmJlMzU4NjVmODhlYjZjZSIsImVtYWlsIjoianVhbi5kZWxhY3J1ekBleGFtcGxlLnBoIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzA0MjE4MTA4fQ.rsa_HnsHzwrhmyjYh8-a125lRDA3JvNcRfGl4qh4jz0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/products/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"products",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search product By ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OTQ0MDEwYmJlMzU4NjVmODhlYjZjZSIsImVtYWlsIjoianVhbi5kZWxhY3J1ekBleGFtcGxlLnBoIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzA0MjE4MTA4fQ.rsa_HnsHzwrhmyjYh8-a125lRDA3JvNcRfGl4qh4jz0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/products/659443d8bbe35865f88eb6eb",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"products",
+						"659443d8bbe35865f88eb6eb"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search By Name",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OTQ0MDEwYmJlMzU4NjVmODhlYjZjZSIsImVtYWlsIjoianVhbi5kZWxhY3J1ekBleGFtcGxlLnBoIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzA0MjE4MTA4fQ.rsa_HnsHzwrhmyjYh8-a125lRDA3JvNcRfGl4qh4jz0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/products/searchByName/Mountain Bike",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"products",
+						"searchByName",
+						"Mountain Bike"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Blink Dagger",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search By Price Range",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OTQ0MDEwYmJlMzU4NjVmODhlYjZjZSIsImVtYWlsIjoianVhbi5kZWxhY3J1ekBleGFtcGxlLnBoIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzA0MjE4MTA4fQ.rsa_HnsHzwrhmyjYh8-a125lRDA3JvNcRfGl4qh4jz0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/products/searchByPrice?minPrice=100&maxPrice=2100\n",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"products",
+						"searchByPrice"
+					],
+					"query": [
+						{
+							"key": "minPrice",
+							"value": "100"
+						},
+						{
+							"key": "maxPrice",
+							"value": "2100\n"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Archive Product",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OTQ0MDEwYmJlMzU4NjVmODhlYjZjZSIsImVtYWlsIjoianVhbi5kZWxhY3J1ekBleGFtcGxlLnBoIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzA0MjE4NTQxfQ.HK3GZHKFIkVzi_GolF3H8xFzxJlvtSgiEbA1Jn4BShU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/products/archive/65944e0b9985a870ff5d365e",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"products",
+						"archive",
+						"65944e0b9985a870ff5d365e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Activate Product",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OTQ0MDEwYmJlMzU4NjVmODhlYjZjZSIsImVtYWlsIjoianVhbi5kZWxhY3J1ekBleGFtcGxlLnBoIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzA0MjE4NTQxfQ.HK3GZHKFIkVzi_GolF3H8xFzxJlvtSgiEbA1Jn4BShU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"65799e40e23d6f767fa55c35\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/products/activate/65944e0b9985a870ff5d365e",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"products",
+						"activate",
+						"65944e0b9985a870ff5d365e"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

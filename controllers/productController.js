@@ -15,9 +15,9 @@ module.exports.createProduct = async (req, res) => {
         });
 
         await newProduct.save();
-        res.status(201).send({ message: "Product created successfully" });
+        res.status(201).send({ message: 'New product added successfully! Ready for sale.' });
     } catch (error) {
-        res.status(500).send({ message: 'Internal Server Error', error: error.message });
+        res.status(500).send({ message: 'Unable to create product at this moment. Please try again later.', error: error.message });
     }
 };
 
@@ -27,20 +27,20 @@ module.exports.editProduct = async (req, res) => {
         const productId = req.params.id;
         const { name, description, price, qty } = req.body;
 
-        // Find the product and update its details
+       
         const updatedProduct = await Product.findByIdAndUpdate(
             productId, 
             { name, description, price, qty },
-            { new: true, omitUndefined: true } // Returns the updated document and omits undefined fields
+            { new: true, omitUndefined: true } 
         );
 
         if (!updatedProduct) {
-            return res.status(404).send({ message: 'Product not found' });
+            return res.status(404).send({ message: 'Update failed: Specified product not found in the catalog.' });
         }
 
-        res.status(200).send({ message: 'Product updated successfully', updatedProduct });
+        res.status(200).send({ message: 'Product details updated successfully. Changes are now live.', updatedProduct });
     } catch (error) {
-        res.status(500).send({ message: 'Internal Server Error', error: error.message });
+        res.status(500).send({ message: 'There was a problem updating the product. Please try again later.', error: error.message });
     }
 };
 
@@ -48,91 +48,164 @@ module.exports.editProduct = async (req, res) => {
 module.exports.getAllProducts = (req, res) => {
     return Product.find({})
         .then((result) => {
-            res.status(200).send({ result });
+            res.status(200).send({message: 'All products retrieved successfully. Browse our collection!' ,result });
         })
         .catch((error) => {
-            res.status(500).send({ message: "Error retrieving products", error }); 
+            res.status(500).send({ message: 'Unable to retrieve products at this time. Please try again later.', error }); 
         });
 };
 
 module.exports.getProductById = (req, res) => {
-    const productId = req.params.id; // Assuming the product ID is passed as a URL parameter
+    const productId = req.params.id; 
 
     return Product.findById(productId)
         .then(product => {
             if (!product) {
-                return res.status(404).send({ message: 'Product not found' });
+                return res.status(404).send({ message: 'No product found with the provided ID. Please check and try again.' });
             } else {
-                return res.status(200).send({ product });
+                return res.status(200).send({message: 'Product details retrieved successfully.', product });
             }
         })
         .catch(error => {
-            res.status(500).send({ message: 'Error retrieving product', error });
+            res.status(500).send({ message: 'There was an issue retrieving the product details. Please try again later.', error });
         });
 };
 
 module.exports.archiveProduct = (req, res) => {
-    const productId = req.params.id; // Assuming the product ID is passed as a URL parameter
+    const productId = req.params.id; 
     const updateActiveField = { isActive: false };
 
-    // Admin check is handled by middleware in the route
-    return Product.findByIdAndUpdate(productId, updateActiveField, { new: true }) // 'new: true' to return the updated document
+    
+    return Product.findByIdAndUpdate(productId, updateActiveField, { new: true }) 
         .then(archivedProduct => {
             if (!archivedProduct) {
-                return res.status(404).send({ message: 'Product not found' });
+                return res.status(404).send({ message: 'Archiving failed: No product found with the provided ID.' });
             }
-            return res.status(200).send({ message: 'Product archived successfully', archivedProduct });
+            return res.status(200).send({ message: 'Product has been archived successfully.', archivedProduct });
         })
         .catch(error => {
-            console.error("Error in archiving a product: ", error);
-            return res.status(500).send({ message: 'Failed to archive product' });
+            return res.status(500).send({ message: 'Unable to archive the product at this moment. Please try again later.' });
         });
 };
 
 module.exports.activateProduct = async (req, res) => {
     try {
-        const productId = req.params.id; // Assuming the product ID is passed as a URL parameter
+        const productId = req.params.id;
 
-        // Update the isActive field to true
+        
         const updatedProduct = await Product.findByIdAndUpdate(
             productId, 
             { isActive: true }, 
-            { new: true } // 'new: true' to return the updated document
+            { new: true }
+        );
+
+        if (!updatedProduct) {
+            return res.status(404).send({ message: 'Activation failed: No product found with the provided ID.' });
+        }
+
+        res.status(200).send({ message: 'Product has been activated successfully and is now available.', updatedProduct });
+    } catch (error) {
+        res.status(500).send({ message: 'Unable to activate the product at this moment. Please try again later.', error: error.message });
+    }
+};
+
+module.exports.searchProductsByName = async (req, res) => {
+    try {
+        const name = req.params.name;
+
+        const products = await Product.find({ 
+            name: { $regex: name, $options: 'i' }
+        });
+
+        if (products.length === 0) {
+            // No matching products found
+            res.status(404).send({ message: 'No products found matching specified name.' });
+        } else {
+            // Products found
+            res.status(200).send(products);
+        }
+    } catch (error) {
+        res.status(500).send({ message: 'Failed to search for products by name. Please try again later.' });
+    }
+};
+
+
+module.exports.searchProductsByPriceRange = async (req, res) => {
+    try {
+        const { minPrice, maxPrice } = req.query;
+
+        let query = {};
+        if (minPrice) {
+            query.price = { ...query.price, $gte: minPrice };
+        }
+        if (maxPrice) {
+            query.price = { ...query.price, $lte: maxPrice };
+        }
+
+        const products = await Product.find(query);
+
+        res.status(200).send(products);
+    } catch (error) {
+        res.status(500).send({ message: 'Internal Server Error', error: error.message });
+    }
+};
+
+
+module.exports.getAllActive = (req, res) => {
+    return Product.find({isActive: true})
+        .then(result => {
+            if (result.length > 0) {
+                return res.status(200).send({message: "All active products retrieved successfully." , products: result });
+            } else {
+                return res.status(200).send({ message: 'No active products found.' });
+            }
+            })
+        .catch(err => res.status(500).send({ error: 'Internal Server Error: An unexpected issue occurred while searching for products by price range.' }));
+};
+
+module.exports.getBestSellers = async (req, res) => {
+    try {
+        const potentialBestSellers = await Product.find({ salesCount: { $gte: 5 } })
+                                                  .sort({ updatedAt: -1 }); 
+
+        let bestSellers;
+        if (potentialBestSellers.length >= 5) {
+            bestSellers = potentialBestSellers.sort((a, b) => b.salesCount - a.salesCount).slice(0, 3);
+        } else {
+            bestSellers = potentialBestSellers.slice(0, 3);
+        }
+
+        let responseMessage = "Our best sellers are:\n";
+        bestSellers.forEach((product, index) => {
+            responseMessage += `${index + 1}. ${product.name}\n`;
+        });
+
+        res.status(200).send({ message: responseMessage });
+    } catch (error) {
+        res.status(500).send({ message: 'Internal Server Error', error: error.message });
+    }
+};
+
+
+module.exports.adjustSalesCount = async (req, res) => {
+    try {
+        if (!req.user.isAdmin) {
+            return res.status(403).send({ message: 'Access denied' });
+        }
+
+        const { productId, newSalesCount } = req.body;
+
+        const updatedProduct = await Product.findByIdAndUpdate(
+            productId, 
+            { salesCount: newSalesCount },
+            { new: true } 
         );
 
         if (!updatedProduct) {
             return res.status(404).send({ message: 'Product not found' });
         }
 
-        res.status(200).send({ message: 'Product activated successfully', updatedProduct });
-    } catch (error) {
-        res.status(500).send({ message: 'Internal Server Error', error: error.message });
-    }
-};
-
-module.exports.searchProductsByName = async (req, res) => {
-    try {
-        const { name } = req.query; // Assuming the name to search is passed as a query parameter
-
-        const products = await Product.find({ 
-            name: { $regex: name, $options: 'i' } // Case-insensitive search
-        });
-
-        res.status(200).send(products);
-    } catch (error) {
-        res.status(500).send({ message: 'Internal Server Error', error: error.message });
-    }
-};
-
-module.exports.searchProductsByPriceRange = async (req, res) => {
-    try {
-        const { minPrice, maxPrice } = req.query; // Assuming min and max prices are passed as query parameters
-
-        const products = await Product.find({ 
-            price: { $gte: minPrice, $lte: maxPrice }
-        });
-
-        res.status(200).send(products);
+        res.status(200).send({ message: 'Sales count updated successfully', updatedProduct });
     } catch (error) {
         res.status(500).send({ message: 'Internal Server Error', error: error.message });
     }
