@@ -20,7 +20,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Database connection
-mongoose.connect("mongodb+srv://admin:Min.Ad0063z@b335-tan-jg.ebbdjol.mongodb.net/capstoneTwo", 
+// add your mongodb connection here
+mongoose.connect("", 
 	{
 		useNewUrlParser: true, // For parsing/reading connection string
 		useUnifiedTopology: true	// Assures that our application uses mongodb latest servers when connecting with mongo database
