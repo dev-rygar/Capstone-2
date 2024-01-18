@@ -1,0 +1,193 @@
+{
+	"info": {
+		"_postman_id": "6d6e16a7-4161-4057-a964-e5bde2ee292d",
+		"name": "Capstone 2: Cart (S52)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30959489",
+		"_collection_link": "https://www.postman.com/tjgarry/workspace/b335-tan-johngarry/collection/30959489-6d6e16a7-4161-4057-a964-e5bde2ee292d?action=share&source=collection_link&creator=30959489"
+	},
+	"item": [
+		{
+			"name": "User Cart",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OTQ0MDEwYmJlMzU4NjVmODhlYjZjZSIsImVtYWlsIjoianVhbi5kZWxhY3J1ekBleGFtcGxlLnBoIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzA0MjE4NTQxfQ.HK3GZHKFIkVzi_GolF3H8xFzxJlvtSgiEbA1Jn4BShU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/cart/get-cart",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"cart",
+						"get-cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add to Cart",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OTQ0MDEwYmJlMzU4NjVmODhlYjZjZSIsImVtYWlsIjoianVhbi5kZWxhY3J1ekBleGFtcGxlLnBoIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzA0MjE4NTQxfQ.HK3GZHKFIkVzi_GolF3H8xFzxJlvtSgiEbA1Jn4BShU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "// Gravel Bike:\r\n// {\r\n//     \"productId\": \"659443d8bbe35865f88eb6eb\",\r\n//     \"quantity\": 3\r\n// }\r\n\r\n// Road Bike:\r\n{\r\n    \"productId\": \"6594440dbbe35865f88eb6ef\",\r\n    \"quantity\": 5\r\n}\r\n\r\n\r\n// Graphic Design - over qty.\r\n// {\r\n//     \"productId\": \"65944418bbe35865f88eb6f1\",\r\n//     \"quantity\": 3\r\n// }\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/cart/add-to-cart",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"cart",
+						"add-to-cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cart Item Qty",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OTQ0MDEwYmJlMzU4NjVmODhlYjZjZSIsImVtYWlsIjoianVhbi5kZWxhY3J1ekBleGFtcGxlLnBoIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzA0MjE4NTQxfQ.HK3GZHKFIkVzi_GolF3H8xFzxJlvtSgiEbA1Jn4BShU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "// Gravel Bike:\r\n{\r\n    \"productId\": \"659443d8bbe35865f88eb6eb\",\r\n    \"quantity\": 4\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/cart/update-cart-quantity",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"cart",
+						"update-cart-quantity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove Item",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OTQ0MDEwYmJlMzU4NjVmODhlYjZjZSIsImVtYWlsIjoianVhbi5kZWxhY3J1ekBleGFtcGxlLnBoIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzA0MjE4NTQxfQ.HK3GZHKFIkVzi_GolF3H8xFzxJlvtSgiEbA1Jn4BShU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "// For removing Gravel Bike in cart\r\n{\r\n    \"productId\": \"659443d8bbe35865f88eb6eb\"\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/cart/id/remove-from-cart",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"cart",
+						"id",
+						"remove-from-cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Clear Cart",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OTQ0MDEwYmJlMzU4NjVmODhlYjZjZSIsImVtYWlsIjoianVhbi5kZWxhY3J1ekBleGFtcGxlLnBoIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzA0MjE4NTQxfQ.HK3GZHKFIkVzi_GolF3H8xFzxJlvtSgiEbA1Jn4BShU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productId\": \"id\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/cart/clear-cart",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"cart",
+						"clear-cart"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

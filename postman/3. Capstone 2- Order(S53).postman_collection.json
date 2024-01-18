@@ -1,0 +1,194 @@
+{
+	"info": {
+		"_postman_id": "f1daa6a2-f743-4004-a43d-47dbb395307b",
+		"name": "Capstone 2: Order(S53)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30959489",
+		"_collection_link": "https://www.postman.com/tjgarry/workspace/b335-tan-johngarry/collection/30959489-f1daa6a2-f743-4004-a43d-47dbb395307b?action=share&source=collection_link&creator=30959489"
+	},
+	"item": [
+		{
+			"name": "Order Checkout",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OTQ0MDEwYmJlMzU4NjVmODhlYjZjZSIsImVtYWlsIjoianVhbi5kZWxhY3J1ekBleGFtcGxlLnBoIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzA0MjE4NTQxfQ.HK3GZHKFIkVzi_GolF3H8xFzxJlvtSgiEbA1Jn4BShU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/orders/checkout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"orders",
+						"checkout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Orders",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OTQ0MDEwYmJlMzU4NjVmODhlYjZjZSIsImVtYWlsIjoianVhbi5kZWxhY3J1ekBleGFtcGxlLnBoIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzA0MjE4NTQxfQ.HK3GZHKFIkVzi_GolF3H8xFzxJlvtSgiEbA1Jn4BShU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/orders/my-orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"orders",
+						"my-orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Orders",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OTQ0MDEwYmJlMzU4NjVmODhlYjZjZSIsImVtYWlsIjoianVhbi5kZWxhY3J1ekBleGFtcGxlLnBoIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzA0MjE4NTQxfQ.HK3GZHKFIkVzi_GolF3H8xFzxJlvtSgiEbA1Jn4BShU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/orders/all-orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"orders",
+						"all-orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Invoice Generator",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OTQ0MDEwYmJlMzU4NjVmODhlYjZjZSIsImVtYWlsIjoianVhbi5kZWxhY3J1ekBleGFtcGxlLnBoIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzA0MjE4NTQxfQ.HK3GZHKFIkVzi_GolF3H8xFzxJlvtSgiEbA1Jn4BShU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/orders/invoice/<order id here, remove brackets 659454f75654d86cb0f35ad2>",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"orders",
+						"invoice",
+						"<order id here, remove brackets 659454f75654d86cb0f35ad2>"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Complete Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OTQ0MDEwYmJlMzU4NjVmODhlYjZjZSIsImVtYWlsIjoianVhbi5kZWxhY3J1ekBleGFtcGxlLnBoIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzA0MjE4NTQxfQ.HK3GZHKFIkVzi_GolF3H8xFzxJlvtSgiEbA1Jn4BShU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/orders/complete/<order id here, remove brackets 659454f75654d86cb0f35ad2>",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"orders",
+						"complete",
+						"<order id here, remove brackets 659454f75654d86cb0f35ad2>"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancel Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OTQ0MDEwYmJlMzU4NjVmODhlYjZjZSIsImVtYWlsIjoianVhbi5kZWxhY3J1ekBleGFtcGxlLnBoIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzA0MjE4NTQxfQ.HK3GZHKFIkVzi_GolF3H8xFzxJlvtSgiEbA1Jn4BShU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/orders/cancel/<order id here, remove brackets 659454f75654d86cb0f35ad2>",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"orders",
+						"cancel",
+						"<order id here, remove brackets 659454f75654d86cb0f35ad2>"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
