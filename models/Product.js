@@ -35,6 +35,10 @@ const productSchema = new mongoose.Schema({
     updatedAt: {
         type: Date,
         default: Date.now
+    },
+    image: { 
+        type: String, 
+        required: false 
     }
 });
 

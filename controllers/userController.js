@@ -5,37 +5,50 @@ const mongoose = require('mongoose');
 
 
 module.exports.registerUser = (req, res) => {
-  return User.findOne({ email: req.body.email })
-    .then((result) => {
-      if (result) {
-        res.send('Registration failed: This email is already in use. Please try a different email.');
+    User.findOne({ email: req.body.email })
+        .then((existingUser) => {
+            if (existingUser) {
+                
+                return res.status(400).send({
+                    message: 'Registration failed: This email is already in use. Please try a different email.'
+                });
+            } else {
+                
+                let newUser = new User({
+                    firstName: req.body.firstName,
+                    lastName: req.body.lastName,
+                    locationType: req.body.locationType,
+                    email: req.body.email,
+                    password: bcrypt.hashSync(req.body.password, 10),
+                    isAdmin: req.body.isAdmin || false, 
+                    mobileNo: req.body.mobileNo,
+                });
 
-      } else {
-        if (req.body.password.length < 8){
-          return res.status(400).send({message: 'Password must be at least 8 characters long. Please choose a longer password.'});
-        }
-        let newUser = new User({
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          locationType: req.body.locationType,
-          email: req.body.email,
-          password: bcrypt.hashSync(req.body.password, 10),
-          isAdmin: req.body.isAdmin,
-          mobileNo: req.body.mobileNo,
+  
+                newUser.save()
+                    .then((user) => {
+                        console.log("User saved to database", user);
+                        res.status(201).send({ 
+                            message: "Congratulations! Your account has been created successfully!" 
+                        });
+                    })
+                    .catch((error) => {
+                        console.error("Error saving user", error);
+                        res.status(500).send({
+                            message: 'Registration error: Something went wrong. Please try again later.', 
+                            error
+                        });
+                    });
+            }
+        })
+        .catch((error) => {
+            console.error("Error in registration process", error);
+            res.status(500).send({
+                message: 'Registration error: Something went wrong. Please try again later.', 
+                error
+            });
         });
-
-        return newUser
-          .save()
-          .then((user) =>
-            res.status(201).send({ message: "Congratulations! Your account has been created successfully!" })
-          );
-      }
-    })
-    .catch((error) => {
-      res.status(500).send({message: 'Registration error: Something went wrong. Please try again later.', error});
-    });
 };
-
 
 module.exports.loginUser = (req, res) => {
   return User.findOne({ email: req.body.email })
@@ -50,14 +63,15 @@ module.exports.loginUser = (req, res) => {
         ); 
 
         if (isPasswordCorrect == true) {
-          return res
-            .status(200)
-            .send({message: 'Logged in successfully!', access: auth.createAccessToken(result) });
-        } else {
+        const userData = {
+            id: result._id,
+            email: result.email,
+            isAdmin: result.isAdmin
+        };
 
-          return res
-            .status(401)
-            .send({ message: 'Incorrect email or password. Please try again.' });
+        return res
+            .status(200)
+            .send({ message: 'Logged in successfully!', user: userData, access: auth.createAccessToken(result) });
         }
       }
     })

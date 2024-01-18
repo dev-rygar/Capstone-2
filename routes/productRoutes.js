@@ -19,7 +19,7 @@ router.patch('/archive/:id', auth.verify, auth.verifyAdmin, auth.isLoggedIn, pro
 
 router.patch('/activate/:id', auth.verify, auth.verifyAdmin, auth.isLoggedIn, productController.activateProduct);
 
-router.get('/searchByName/:name', auth.verify, productController.searchProductsByName);
+router.get('/searchByName/:name', auth.verify, auth.isLoggedIn, productController.searchProductsByName);
 
 // http://localhost:4000/products/searchByPrice?minPrice=100
 // http://localhost:4000/products/searchByPrice?maxPrice=1000

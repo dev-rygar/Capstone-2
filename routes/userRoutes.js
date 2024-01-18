@@ -7,7 +7,7 @@ const auth = require('../auth');
 router.post('/register', userController.registerUser); 
 
 // User Login
-router.post('/login', auth.verify, userController.loginUser);
+router.post('/login', userController.loginUser);
 
 router.get('/all', auth.verify, auth.verifyAdmin, auth.isLoggedIn, userController.getAllUsers);
 

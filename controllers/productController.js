@@ -5,13 +5,14 @@ const mongoose = require('mongoose');
 
 module.exports.createProduct = async (req, res) => {
     try {
-        const { name, description, price, qty } = req.body; 
+        const { name, description, price, qty, image } = req.body; 
 
         let newProduct = new Product({
             name,
             description,
             price,
-            qty 
+            qty,
+            image: image || '' 
         });
 
         await newProduct.save();
@@ -20,6 +21,7 @@ module.exports.createProduct = async (req, res) => {
         res.status(500).send({ message: 'Unable to create product at this moment. Please try again later.', error: error.message });
     }
 };
+
 
 
 module.exports.editProduct = async (req, res) => {
@@ -38,7 +40,7 @@ module.exports.editProduct = async (req, res) => {
             return res.status(404).send({ message: 'Update failed: Specified product not found in the catalog.' });
         }
 
-        res.status(200).send({ message: 'Product details updated successfully. Changes are now live.', updatedProduct });
+        res.status(200).send({updatedProduct });
     } catch (error) {
         res.status(500).send({ message: 'There was a problem updating the product. Please try again later.', error: error.message });
     }
@@ -48,7 +50,7 @@ module.exports.editProduct = async (req, res) => {
 module.exports.getAllProducts = (req, res) => {
     return Product.find({})
         .then((result) => {
-            res.status(200).send({message: 'All products retrieved successfully. Browse our collection!' ,result });
+            res.status(200).send(result);
         })
         .catch((error) => {
             res.status(500).send({ message: 'Unable to retrieve products at this time. Please try again later.', error }); 
@@ -81,7 +83,7 @@ module.exports.archiveProduct = (req, res) => {
             if (!archivedProduct) {
                 return res.status(404).send({ message: 'Archiving failed: No product found with the provided ID.' });
             }
-            return res.status(200).send({ message: 'Product has been archived successfully.', archivedProduct });
+            return res.status(200).send({archivedProduct });
         })
         .catch(error => {
             return res.status(500).send({ message: 'Unable to archive the product at this moment. Please try again later.' });
@@ -103,7 +105,7 @@ module.exports.activateProduct = async (req, res) => {
             return res.status(404).send({ message: 'Activation failed: No product found with the provided ID.' });
         }
 
-        res.status(200).send({ message: 'Product has been activated successfully and is now available.', updatedProduct });
+        res.status(200).send({updatedProduct });
     } catch (error) {
         res.status(500).send({ message: 'Unable to activate the product at this moment. Please try again later.', error: error.message });
     }
@@ -155,7 +157,7 @@ module.exports.getAllActive = (req, res) => {
     return Product.find({isActive: true})
         .then(result => {
             if (result.length > 0) {
-                return res.status(200).send({message: "All active products retrieved successfully." , products: result });
+                return res.status(200).send({result});
             } else {
                 return res.status(200).send({ message: 'No active products found.' });
             }
@@ -175,12 +177,9 @@ module.exports.getBestSellers = async (req, res) => {
             bestSellers = potentialBestSellers.slice(0, 3);
         }
 
-        let responseMessage = "Our best sellers are:\n";
-        bestSellers.forEach((product, index) => {
-            responseMessage += `${index + 1}. ${product.name}\n`;
-        });
+        const bestSellerIds = bestSellers.map(product => product._id);
 
-        res.status(200).send({ message: responseMessage });
+        res.status(200).send(bestSellerIds);
     } catch (error) {
         res.status(500).send({ message: 'Internal Server Error', error: error.message });
     }
